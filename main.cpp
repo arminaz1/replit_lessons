@@ -1,6 +1,8 @@
-#include "hello.h"
+// #include "hello.h"
+#include "favnum.h"
 
 int main() {
-    sayHello();
+    // sayHello();
+    favNum();
     return 0;
 }

@@ -1,6 +1,6 @@
 #include <iostream>
 #include "hello.h"
-
+using namespace std;
 void sayHello() {
-    std::cout << "Hello, World!" << std::endl;
+    cout << "Hello, World!" << std::endl;
 }
