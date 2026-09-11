@@ -1,6 +1,4 @@
 #include <iostream>
-#include <chrono>
-#include <thread>
 #include "constants_.h"
 using namespace std;
 
@@ -32,13 +30,18 @@ void carpet_cleaning_cost(){
   const float days_valid_cost_estimate{30};
 
   cout << "\tCarpet Cleaning Service Cost Estimate";
-  cout << "\n\tSmall Carpet: "; 
+  cout << "\n\t\tSmall Carpet: "; 
   unsigned int small_carpet_number{0};
   cin >> small_carpet_number;
-  cout << "\n\t Large Carpet: ";
+  cout << "\t\t Large Carpet: ";
   unsigned int large_carpet_number{0};
   cin >> large_carpet_number;
-  cout << "\n\ttax rate is: " << tax_rate;
-  std::this_thread::sleep_for(std::chrono::seconds(10));
-  
+  cout << "\t\ttax rate is: " << tax_rate;
+  double fixed_cost{0};
+  fixed_cost = (large_carpet_number * charge_of_large_carpet) + (small_carpet_number * charge_of_small_carpet);
+  cout << "\n\t Cost: " << fixed_cost;
+  float tax{1};
+  tax = fixed_cost * tax_rate;
+  cout << "\n\t Tax: " << tax;
+  cout << "\n\t Estimate: " << tax + fixed_cost << "\n\t valid for " << days_valid_cost_estimate << " Days. " << endl;
 }
