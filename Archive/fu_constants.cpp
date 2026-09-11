@@ -1,5 +1,6 @@
 #include <iostream>
 #include "constants_.h"
+#include <iomanip>
 using namespace std;
 
 void fu_constants(){
@@ -24,24 +25,25 @@ void fu_constants(){
 }
 
 void carpet_cleaning_cost(){
-  const float charge_of_large_carpet{25};
+  const float charge_of_large_carpet{45};
   const float charge_of_small_carpet{35};
   const float tax_rate{0.06};
   const float days_valid_cost_estimate{30};
 
-  cout << "\tCarpet Cleaning Service Cost Estimate";
-  cout << "\n\t\tSmall Carpet: "; 
+  cout << "\tCarpet Cleaning Service Cost Estimate\n";
+  cout << "\t\t# of Small Carpet" << "{" << charge_of_small_carpet << "$}: "; 
   unsigned int small_carpet_number{0};
   cin >> small_carpet_number;
-  cout << "\t\t Large Carpet: ";
+  cout << "\t\t# of Large Carpet" << "{" << charge_of_large_carpet << "$}: ";;
   unsigned int large_carpet_number{0};
   cin >> large_carpet_number;
   cout << "\t\ttax rate is: " << tax_rate;
   double fixed_cost{0};
   fixed_cost = (large_carpet_number * charge_of_large_carpet) + (small_carpet_number * charge_of_small_carpet);
-  cout << "\n\t Cost: " << fixed_cost;
+  cout << "\n\t\t\t Cost: " << fixed_cost;
   float tax{1};
   tax = fixed_cost * tax_rate;
-  cout << "\n\t Tax: " << tax;
-  cout << "\n\t Estimate: " << tax + fixed_cost << "\n\t valid for " << days_valid_cost_estimate << " Days. " << endl;
+  cout << "\n\t\t\t Tax: " << tax;
+  cout << "\n\t\t\t Estimate: " << tax + fixed_cost << "\n\t\t\t valid for " << days_valid_cost_estimate << " Days. " << endl;
 }
+
