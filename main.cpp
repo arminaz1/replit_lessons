@@ -5,6 +5,7 @@
 // #include "primitve_type.h"
 // #include "sizeof.h"
 // #include "constants_.h"
+#include "Vector_.h"
 
 int main() {
   // fu_sizeof();
@@ -15,5 +16,6 @@ int main() {
   // primitiveType();
   // fu_constants();
   // carpet_cleaning_cost();
+  vector_example();
   return 0;
 }
