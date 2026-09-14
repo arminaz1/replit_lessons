@@ -5,8 +5,8 @@
 // #include "primitve_type.h"
 // #include "sizeof.h"
 // #include "constants_.h"
-#include "Vector_.h"
-
+// #include "Vector_.h"
+#include "rational_opt_conversion.h"
 int main() {
   // fu_sizeof();
   // sayHello();
@@ -16,6 +16,8 @@ int main() {
   // primitiveType();
   // fu_constants();
   // carpet_cleaning_cost();
-  vector_example();
+  // vector_example();
+  rational_opt_conversion();
+  
   return 0;
 }
