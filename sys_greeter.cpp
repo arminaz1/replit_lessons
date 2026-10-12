@@ -7,54 +7,79 @@ const unsigned int MAX_SUPPORTED_RAM{
 
 void sys_greeter();
 void print_array(std::string array[], size_t size_of_array);
-
+void display_menu();
+void print_cluster(std::vector<std::string> names, std::vector<unsigned int> rams);
+void print_cluster();
 
 
 int main() {
-  std::vector<unsigned int> cluster_ram{};
-  int choice{};
-  int time_out{};
-  
-  do{
-    time_out++;
-    std::cout << "\n=== Cluster Management Menu ===" << std::endl;
-    std::cout << "1. Add a Node (RAM)\n2. View Cluster Specs\n3. Exit\nSelection: \t";
-    std::cin >> choice;
-    unsigned int temp{};
-    switch(choice){
-      case (1):
-        std::cout << "Enter RAM for new node (GB): " << std::endl;
-        // unsigned int temp{};
-        std::cin >> temp;
-        cluster_ram.push_back(temp);
-        break;
-      
-      case(2):
-        if(cluster_ram.size() == 0){
-          std::cout << "Cluster is empty." << std::endl;
-        }
-        else{
-          for(auto ram : cluster_ram){
-            std::cout << "RAM NODE: " << ram;
-        
-          }
-        }
-        break;
-      case(3):
-        std::cout << "Shutting down system ... Goodbye!" << std::endl;
-        break;
-      default:
-        std::cout << "Unknown Command" << std::endl;
-    }
-    
-  }while(choice!=3 && time_out < 100);
+
+  display_menu();
   // sys_greeter();
   return 0;
 }
 
+void print_cluster(){
+  std::cout << "Error: No cluster data provided to the print function.\n";
+}
 
+/////////****** Cluster Printer ******///////////
+void print_cluster(std::vector<std::string> names, std::vector<unsigned int> rams){
+  if(rams.size() == 0){
+    std::cout << "Cluster is empty." << std::endl;
+  }
+  else{
+    for(size_t i = 0; i < rams.size(); ++i){
+      std::cout << "\nRAM Name " << names[i] << "\nRAM NODE: " << rams[i] << " Length: " << names[i].length() << std::endl;
+  }
+  }
+  
+}
+/////////****** ****** ******///////////
 
+/////////****** Display Menu ******///////////
+void display_menu(){
+std::vector<unsigned int> cluster_ram{};
+std::vector<std::string> cluster_name{};
+int choice{};
+int time_out{};
+unsigned int temp{};
+std::string temp_st{};
+do{
+  time_out++;
+  std::cout << "\n=== Cluster Management Menu ===" << std::endl;
+  std::cout << "1. Add a Node (RAM)\n2. View Cluster Specs\n3. Exit\nSelection: \t";
+  if(std::cin.fail()){
+    std::cin.clear();
+    std::cin.ignore(10000, '\n');
+      choice = 0;
+  }
+  std::cin >> choice;
+  switch(choice){
+    case (1):
+      std::cout << "Enter name for new node (GB): " << std::endl;
+      std::cin.ignore();
+      std::getline(std::cin , temp_st);
+      cluster_name.push_back(temp_st);
+      std::cout << "Enter RAM for new node (GB): " << std::endl;
+      // unsigned int temp{};
+      std::cin >> temp;
+      cluster_ram.push_back(temp);
+      break;
+    case(2):
+      print_cluster(cluster_name , cluster_ram);
+    break;
+  case(3):
+    std::cout << "Shutting down system ... Goodbye!" << std::endl;
+    break;
+  default:
+    std::cout << "Unknown Command" << std::endl;
+  }
+}while(choice != 3 && time_out<100);
+}  
+/////////****** ****** ******///////////
 
+/////////****** Print Array ******///////////
 void print_array(std::string array[], size_t size_of_array) {
   std::cout << "Supported OS: ";
   for (size_t i = 0; i < size_of_array; ++i) {
@@ -62,7 +87,10 @@ void print_array(std::string array[], size_t size_of_array) {
   }
   std::cout << "\b\b" << std::endl;
 }
+/////////****** ****** ******///////////
 
+
+/////////****** System Greeter ******///////////
 void sys_greeter() {
   std::string allowed_os[3] = {"Windows", "Replit", "Linux"};
   std::string greet_text;
@@ -118,3 +146,4 @@ void sys_greeter() {
             << "| Average RAMs Capacity: " << average_ram << "| Is deployable: " << is_deployable << "| Nodes Deployed: " << nodes_deployed-- << std::endl;
     
 }
+/////////****** ****** ******///////////
