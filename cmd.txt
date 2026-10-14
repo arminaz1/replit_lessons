@@ -1,0 +1,1 @@
+g++ -Wall -Wextra -Werror -Wconversion -pedantic -fsanitize=address,undefined p6_5.cpp -o main && ./main
