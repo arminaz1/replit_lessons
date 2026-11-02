@@ -1,6 +1,8 @@
+
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cstddef>
 const unsigned int MAX_SUPPORTED_RAM{
     128}; // if you are using the global variable use the const to prevent from
           // accidentall change
@@ -8,8 +10,9 @@ const unsigned int MAX_SUPPORTED_RAM{
 void sys_greeter();
 void print_array(std::string array[], size_t size_of_array);
 void display_menu();
-void print_cluster(std::vector<std::string> names, std::vector<unsigned int> rams);
+void print_cluster(const std::vector<std::string>& names, const std::vector<unsigned int>& rams);
 void print_cluster();
+const unsigned int* find_highest_ram(const std::vector<unsigned int>& rams);
 
 
 int main() {
@@ -23,8 +26,22 @@ void print_cluster(){
   std::cout << "Error: No cluster data provided to the print function.\n";
 }
 
-/////////****** Cluster Printer ******///////////
-void print_cluster(std::vector<std::string> names, std::vector<unsigned int> rams){
+// /////////****** Cluster Printer 1st Version ******///////////
+// void print_cluster(std::vector<std::string> names, std::vector<unsigned int> rams){
+//   if(rams.size() == 0){
+//     std::cout << "Cluster is empty." << std::endl;
+//   }
+//   else{
+//     for(size_t i = 0; i < rams.size(); ++i){
+//       std::cout << "\nRAM Name " << names[i] << "\nRAM NODE: " << rams[i] << " Length: " << names[i].length() << std::endl;
+//   }
+//   }
+  
+// }
+// /////////****** ****** ******///////////
+
+///////****** Cluster Printer 2nd Version******///////////
+void print_cluster(const std::vector<std::string>& names, const std::vector<unsigned int>& rams){
   if(rams.size() == 0){
     std::cout << "Cluster is empty." << std::endl;
   }
@@ -33,7 +50,7 @@ void print_cluster(std::vector<std::string> names, std::vector<unsigned int> ram
       std::cout << "\nRAM Name " << names[i] << "\nRAM NODE: " << rams[i] << " Length: " << names[i].length() << std::endl;
   }
   }
-  
+
 }
 /////////****** ****** ******///////////
 
@@ -41,6 +58,7 @@ void print_cluster(std::vector<std::string> names, std::vector<unsigned int> ram
 void display_menu(){
 std::vector<unsigned int> cluster_ram{};
 std::vector<std::string> cluster_name{};
+  
 int choice{};
 int time_out{};
 unsigned int temp{};
@@ -48,7 +66,7 @@ std::string temp_st{};
 do{
   time_out++;
   std::cout << "\n=== Cluster Management Menu ===" << std::endl;
-  std::cout << "1. Add a Node (RAM)\n2. View Cluster Specs\n3. Exit\nSelection: \t";
+  std::cout << "1. Add a Node (RAM)\n2. View Cluster Specs\n3. Show Highest RAM\n4. Exit\nSelection: \t";
   if(std::cin.fail()){
     std::cin.clear();
     std::cin.ignore(10000, '\n');
@@ -69,13 +87,28 @@ do{
     case(2):
       print_cluster(cluster_name , cluster_ram);
     break;
-  case(3):
+    
+    case(3): {
+        const unsigned int* best{find_highest_ram(cluster_ram)};
+        if (best == nullptr) {
+          std::cout << "Cluster is empty.\n";
+        } else {
+          std::ptrdiff_t index{best - cluster_ram.data()};
+          std::cout << "Highest RAM: " << *best << " GB ("
+                    << cluster_name[static_cast<size_t>(index)] << ")\n";
+        }
+        break;
+      }
+      
+      break;
+    case(4):
     std::cout << "Shutting down system ... Goodbye!" << std::endl;
     break;
-  default:
-    std::cout << "Unknown Command" << std::endl;
+
+    default:
+      std::cout << "Unknown Command" << std::endl;
   }
-}while(choice != 3 && time_out<100);
+}while(choice != 4 && time_out<100);
 }  
 /////////****** ****** ******///////////
 
@@ -131,19 +164,32 @@ void sys_greeter() {
   std::cout << "Memory used to store CPU vairable: " << sizeof(cpu_speed)
             << std::endl;
   unsigned int total_ram{0};
-  for(int i = 0; i < cluster_ram.size(); ++i){
+  for(size_t i = 0; i < cluster_ram.size(); ++i){
      total_ram += cluster_ram.at(i);
   }
   double average_ram{0};
-  average_ram = static_cast<double>(total_ram)/cluster_ram.size();
+  average_ram = static_cast<double>(total_ram)/static_cast<double>(cluster_ram.size());
+ 
 
   bool is_deployable;
   is_deployable = (total_ram <= MAX_SUPPORTED_RAM) && (cpu_speed > 2.0);
-  int nodes_deployed = cluster_ram.size();
+   int nodes_deployed = static_cast<int>(cluster_ram.size());
   nodes_deployed ++;
 
   std::cout << "Total RAM: " << total_ram 
             << "| Average RAMs Capacity: " << average_ram << "| Is deployable: " << is_deployable << "| Nodes Deployed: " << nodes_deployed-- << std::endl;
     
+}
+
+const unsigned int* find_highest_ram(const std::vector<unsigned int>& rams){
+  if(rams.size() == 0)
+    return nullptr;
+  
+  const unsigned int* Max_RAM{&rams[0]};
+  for(size_t i = 1; i < rams.size(); ++i){
+    if(rams[i] > *Max_RAM)
+      Max_RAM = &rams[i];
+  }
+  return Max_RAM;
 }
 /////////****** ****** ******///////////
