@@ -1,1 +1,2 @@
 clear && g++ -Wall -Wextra -Werror -Wconversion -pedantic -fsanitize=address,undefined -g oop1.cpp -o main && ./main
+clear && g++ -Wall -Wextra -Werror -Wconversion -pedantic -fsanitize=address,undefined -g test.cpp -o main && ./main
